@@ -16,7 +16,7 @@ return new class extends Migration
 
             $table->string('nombre');
             $table->enum('calidad', ['premium','estandar']); //Calidad del productos
-            $table->decimal('tamanio_kg', 0, 2);
+            $table->decimal('tamanio_kg', 8, 2);
 
             $table->text('descripcion')->nullable();
             

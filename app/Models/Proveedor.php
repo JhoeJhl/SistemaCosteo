@@ -10,6 +10,15 @@ class Proveedor extends Model
         'nombre',
         'comunidad',
         'telefono',
-        'direccion'
+        'direccion',
+        'tipo_terreno',
+        'entrega_en_planta',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'entrega_en_planta' => 'boolean',
+        ];
+    }
 }

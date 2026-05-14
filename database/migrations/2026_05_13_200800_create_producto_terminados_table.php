@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('producto_terminados', function (Blueprint $table) {
             $table->id();
 
-            $table->string('nombre');
-            $table->enum('calidad', ['premium','estandar']); //Calidad del productos
-            $table->decimal('tamanio_kg', 8, 2);
 
-            $table->text('descripcion')->nullable();
+            $table->enum('calidad', ['18% Sol', '14-17% Sol', '<14% Sol']); // calidad de pulpa
+
+            $table->decimal('tamanio_empaque_kg', 8, 2); // tamaño
+
             
             $table->timestamps();
         });

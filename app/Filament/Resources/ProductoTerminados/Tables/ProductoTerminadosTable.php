@@ -2,12 +2,8 @@
 
 namespace App\Filament\Resources\ProductoTerminados\Tables;
 
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
-use Filament\Actions\ViewAction;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Filament\Tables\Columns\TextColumn;
 
 class ProductoTerminadosTable
 {
@@ -15,33 +11,28 @@ class ProductoTerminadosTable
     {
         return $table
             ->columns([
-                TextColumn::make('nombre')
-                    ->searchable(),
+                // Columna de calidad
                 TextColumn::make('calidad')
-                    ->badge(),
-                TextColumn::make('tamanio_kg')
-                    ->numeric()
+                    ->label('Calidad de Pulpa')
+                    ->badge() 
+                    ->color(fn (string $state): string => match ($state) {
+                        '18% Sol' => 'success',    // Verde
+                        '14-17% Sol' => 'warning', // Amarillo
+                        '<14% Sol' => 'danger',    // Rojo
+                        default => 'gray',
+                    })
+                    ->searchable()
                     ->sortable(),
-                TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+
+                // Columna para el peso con sufijo automático
+                TextColumn::make('tamano_empaque_kg')
+                    ->label('Presentación')
+                    ->numeric()
+                    ->suffix(' kg') // añade al final Kg
+                    ->weight('bold')
+                    ->sortable(),
             ])
-            ->filters([
-                //
-            ])
-            ->recordActions([
-                ViewAction::make(),
-                EditAction::make(),
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
-            ]);
+            // Ordena por defecto para que los más pesados salgan primero
+            ->defaultSort('tamano_empaque_kg', 'desc'); 
     }
 }

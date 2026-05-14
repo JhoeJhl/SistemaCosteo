@@ -2,8 +2,9 @@
 
 namespace App\Filament\Resources\Clientes\Schemas;
 
-use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Infolists\Components\TextEntry;
 
 class ClienteInfolist
 {
@@ -11,19 +12,22 @@ class ClienteInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('nombre'),
-                TextEntry::make('tipo_cliente')
-                    ->badge(),
-                TextEntry::make('telefono')
-                    ->placeholder('-'),
-                TextEntry::make('direccion')
-                    ->placeholder('-'),
-                TextEntry::make('created_at')
-                    ->dateTime()
-                    ->placeholder('-'),
-                TextEntry::make('updated_at')
-                    ->dateTime()
-                    ->placeholder('-'),
+                Section::make('Ficha del Cliente')
+                    ->schema([
+                        TextEntry::make('nombre')
+                            ->weight('bold')
+                            ->size('lg'),
+                        TextEntry::make('tipo')
+                            ->badge()
+                            ->color(fn ($state) => match ($state) {
+                                'exportador' => 'success',
+                                'mayorista' => 'info',
+                                default => 'gray',
+                            }),
+                        TextEntry::make('telefono')->icon('heroicon-m-phone'),
+                        TextEntry::make('email')->icon('heroicon-m-envelope'),
+                        TextEntry::make('direccion')->columnSpanFull(),
+                    ])->columns(2),
             ]);
     }
 }

@@ -2,12 +2,8 @@
 
 namespace App\Filament\Resources\Clientes\Tables;
 
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
-use Filament\Actions\ViewAction;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Filament\Tables\Columns\TextColumn;
 
 class ClientesTable
 {
@@ -16,33 +12,35 @@ class ClientesTable
         return $table
             ->columns([
                 TextColumn::make('nombre')
-                    ->searchable(),
-                TextColumn::make('tipo_cliente')
-                    ->badge(),
+                    ->label('Cliente')
+                    ->searchable()
+                    ->sortable(),
+
+                TextColumn::make('tipo')
+                    ->label('Clasificación')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'exportador' => 'success', // Verde
+                        'mayorista' => 'info',    // Azul
+                        'minorista' => 'gray',    // Gris
+                        default => 'gray',
+                    })
+                    ->formatStateUsing(fn ($state) => ucfirst($state)),
+
                 TextColumn::make('telefono')
+                    ->label('Contacto')
+                    ->icon('heroicon-m-phone')
                     ->searchable(),
+
                 TextColumn::make('direccion')
+                    ->label('Direccion de Entrega')
                     ->searchable(),
-                TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+
+                TextColumn::make('email')
+                    ->label('Correo')
+                    ->icon('heroicon-m-envelope')
+                    ->toggleable(isToggledHiddenByDefault: true), // Oculto por defecto para limpiar la vista
             ])
-            ->filters([
-                //
-            ])
-            ->recordActions([
-                ViewAction::make(),
-                EditAction::make(),
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
-            ]);
+            ->defaultSort('nombre', 'asc');
     }
 }

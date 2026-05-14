@@ -13,11 +13,9 @@ return new class extends Migration
     {
         Schema::create('almacens', function (Blueprint $table) {
             $table->id();
-
-            $table->string('nombre');
-            $table->enum('tipo', ['materia_prima', 'producto_terminado', 'camara_fria']);
-            $table->text('descripcion')->nullable();
-
+            $table->string('nombre'); // Ej: "Depósito Central" o "Cámara Fría 1"
+            $table->enum('tipo', ['MP', 'PT'])->comment('MP: Materia Prima, PT: Producto Terminado');
+            $table->string('descripcion')->nullable();
             $table->timestamps();
         });
     }

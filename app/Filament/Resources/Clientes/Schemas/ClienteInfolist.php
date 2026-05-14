@@ -5,7 +5,7 @@ namespace App\Filament\Resources\Clientes\Schemas;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 
-class ClientesInfolist
+class ClienteInfolist
 {
     public static function configure(Schema $schema): Schema
     {

@@ -2,13 +2,13 @@
 
 namespace App\Filament\Resources\Clientes\Pages;
 
-use App\Filament\Resources\Clientes\ClientesResource;
+use App\Filament\Resources\Clientes\ClienteResource;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
 
-class ViewClientes extends ViewRecord
+class ViewCliente extends ViewRecord
 {
-    protected static string $resource = ClientesResource::class;
+    protected static string $resource = ClienteResource::class;
 
     protected function getHeaderActions(): array
     {

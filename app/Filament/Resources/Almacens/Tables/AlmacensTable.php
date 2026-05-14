@@ -15,10 +15,14 @@ class AlmacensTable
     {
         return $table
             ->columns([
+                TextColumn::make('id')
+                    ->searchable(),
                 TextColumn::make('nombre')
                     ->searchable(),
                 TextColumn::make('tipo')
                     ->badge(),
+                TextColumn::make('descripcion')
+                    ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

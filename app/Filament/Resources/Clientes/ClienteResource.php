@@ -2,23 +2,23 @@
 
 namespace App\Filament\Resources\Clientes;
 
-use App\Filament\Resources\Clientes\Pages\CreateClientes;
-use App\Filament\Resources\Clientes\Pages\EditClientes;
+use App\Filament\Resources\Clientes\Pages\CreateCliente;
+use App\Filament\Resources\Clientes\Pages\EditCliente;
 use App\Filament\Resources\Clientes\Pages\ListClientes;
-use App\Filament\Resources\Clientes\Pages\ViewClientes;
-use App\Filament\Resources\Clientes\Schemas\ClientesForm;
-use App\Filament\Resources\Clientes\Schemas\ClientesInfolist;
+use App\Filament\Resources\Clientes\Pages\ViewCliente;
+use App\Filament\Resources\Clientes\Schemas\ClienteForm;
+use App\Filament\Resources\Clientes\Schemas\ClienteInfolist;
 use App\Filament\Resources\Clientes\Tables\ClientesTable;
-use App\Models\Clientes;
+use App\Models\Cliente;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 
-class ClientesResource extends Resource
+class ClienteResource extends Resource
 {
-    protected static ?string $model = Clientes::class;
+    protected static ?string $model = Cliente::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
@@ -26,12 +26,12 @@ class ClientesResource extends Resource
 
     public static function form(Schema $schema): Schema
     {
-        return ClientesForm::configure($schema);
+        return ClienteForm::configure($schema);
     }
 
     public static function infolist(Schema $schema): Schema
     {
-        return ClientesInfolist::configure($schema);
+        return ClienteInfolist::configure($schema);
     }
 
     public static function table(Table $table): Table
@@ -50,9 +50,9 @@ class ClientesResource extends Resource
     {
         return [
             'index' => ListClientes::route('/'),
-            'create' => CreateClientes::route('/create'),
-            'view' => ViewClientes::route('/{record}'),
-            'edit' => EditClientes::route('/{record}/edit'),
+            'create' => CreateCliente::route('/create'),
+            'view' => ViewCliente::route('/{record}'),
+            'edit' => EditCliente::route('/{record}/edit'),
         ];
     }
 }

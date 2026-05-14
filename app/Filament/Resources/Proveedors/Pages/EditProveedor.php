@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Filament\Resources\Proveedores\Pages;
+namespace App\Filament\Resources\Proveedors\Pages;
 
-use App\Filament\Resources\Proveedores\ProveedoresResource;
+use App\Filament\Resources\Proveedors\ProveedorResource;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\EditRecord;
 
-class EditProveedores extends EditRecord
+class EditProveedor extends EditRecord
 {
-    protected static string $resource = ProveedoresResource::class;
+    protected static string $resource = ProveedorResource::class;
 
     protected function getHeaderActions(): array
     {

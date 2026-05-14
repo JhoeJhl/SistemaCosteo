@@ -2,14 +2,14 @@
 
 namespace App\Filament\Resources\Clientes\Pages;
 
-use App\Filament\Resources\Clientes\ClientesResource;
+use App\Filament\Resources\Clientes\ClienteResource;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\EditRecord;
 
-class EditClientes extends EditRecord
+class EditCliente extends EditRecord
 {
-    protected static string $resource = ClientesResource::class;
+    protected static string $resource = ClienteResource::class;
 
     protected function getHeaderActions(): array
     {

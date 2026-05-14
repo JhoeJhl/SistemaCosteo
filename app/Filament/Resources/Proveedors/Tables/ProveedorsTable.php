@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Filament\Resources\Proveedores\Tables;
+namespace App\Filament\Resources\Proveedors\Tables;
+
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -9,7 +10,7 @@ use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
-class ProveedoresTable
+class ProveedorsTable
 {
     public static function configure(Table $table): Table
     {
@@ -22,15 +23,7 @@ class ProveedoresTable
                 TextColumn::make('telefono')
                     ->searchable(),
                 TextColumn::make('direccion')
-                    ->searchable(),
-                TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->searchable()
             ])
             ->filters([
                 //

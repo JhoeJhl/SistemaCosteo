@@ -27,7 +27,7 @@ class ProductoTerminadoForm
                                 ->native(false)
                                 ->required(),
 
-                            Select::make('tamano_empaque_kg')
+                            Select::make('tamanio_empaque_kg')
                                 ->label('Tamaño de Empaque')
                                 ->options([
                                     '5' => '5 kg (Bolsa Industrial)',

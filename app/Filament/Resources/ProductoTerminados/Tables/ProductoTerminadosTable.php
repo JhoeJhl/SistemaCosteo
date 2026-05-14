@@ -25,7 +25,7 @@ class ProductoTerminadosTable
                     ->sortable(),
 
                 // Columna para el peso con sufijo automático
-                TextColumn::make('tamano_empaque_kg')
+                TextColumn::make('tamanio_empaque_kg')
                     ->label('Presentación')
                     ->numeric()
                     ->suffix(' kg') // añade al final Kg
@@ -33,6 +33,6 @@ class ProductoTerminadosTable
                     ->sortable(),
             ])
             // Ordena por defecto para que los más pesados salgan primero
-            ->defaultSort('tamano_empaque_kg', 'desc'); 
+            ->defaultSort('tamanio_empaque_kg', 'desc'); 
     }
 }

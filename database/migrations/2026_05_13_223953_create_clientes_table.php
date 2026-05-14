@@ -13,12 +13,11 @@ return new class extends Migration
     {
         Schema::create('clientes', function (Blueprint $table) {
             $table->id();
-
             $table->string('nombre');
-            $table->enum('tipo_cliente', ['mayorista', 'minorista', 'exportador']);
+            $table->enum('tipo', ['mayorista', 'minorista', 'exportador'])->default('minorista');
             $table->string('telefono')->nullable();
             $table->string('direccion')->nullable();
-
+            $table->string('email')->nullable(); // Agregamos email para facturación futura
             $table->timestamps();
         });
     }

@@ -8,7 +8,7 @@ class ProductoTerminado extends Model
 {
     protected $fillable = [
         'calidad',
-        'tamano_empaque_kg',
+        'tamanio_empaque_kg',
     ];
 
     protected function casts(): array

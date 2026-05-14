@@ -17,35 +17,30 @@ class CampaniasTable
         return $table
             ->columns([
                 TextColumn::make('nombre')
-                    ->searchable(),
+                    ->label('Campaña')
+                    ->searchable()
+                    ->sortable()
+                    ->weight('bold'),
+
                 TextColumn::make('fecha_inicio')
-                    ->date()
+                    ->label('Inicio')
+                    ->date('d M, Y') 
                     ->sortable(),
+
                 TextColumn::make('fecha_fin')
-                    ->date()
+                    ->label('Fin')
+                    ->formatStateUsing(fn ($state) => $state ? $state->format('d M, Y') : 'En curso...')
                     ->sortable(),
-                IconColumn::make('activa')
-                    ->boolean(),
-                TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+
+                IconColumn::make('is_active')
+                    ->label('Estado')
+                    ->boolean()
+                    ->trueIcon('heroicon-o-check-circle')
+                    ->falseIcon('heroicon-o-x-circle')
+                    ->trueColor('success')
+                    ->falseColor('gray')
+                    ->alignCenter(),
             ])
-            ->filters([
-                //
-            ])
-            ->recordActions([
-                ViewAction::make(),
-                EditAction::make(),
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
-            ]);
+            ->defaultSort('fecha_inicio', 'desc'); // Muestra las campañas más nuevas primero
     }
 }

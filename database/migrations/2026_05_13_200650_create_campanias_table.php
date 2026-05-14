@@ -13,12 +13,10 @@ return new class extends Migration
     {
         Schema::create('campanias', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
+            $table->string('nombre')->unique();
             $table->date('fecha_inicio');
-            $table->date('fecha_fin')->nullable();
-
-            $table->boolean('activa')->default(false);
-
+            $table->date('fecha_fin')->nullable(); // Puede ser nula si la campaña sigue abierta
+            $table->boolean('is_active')->default(false); 
             $table->timestamps();
         });
     }

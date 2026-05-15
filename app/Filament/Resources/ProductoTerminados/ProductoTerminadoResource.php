@@ -20,9 +20,10 @@ class ProductoTerminadoResource extends Resource
 {
     protected static ?string $model = ProductoTerminado::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-cube';
 
-    protected static ?string $recordTitleAttribute = 'nombre';
+    protected static ?string $label = 'Producto Terminado';
+    protected static ?string $pluralModelLabel = 'Productos Terminados';
 
     public static function form(Schema $schema): Schema
     {

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('almacens', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre'); // Ej: "Depósito Central" o "Cámara Fría 1"
+            $table->string('nombre'); 
             $table->enum('tipo', ['MP', 'PT'])->comment('MP: Materia Prima, PT: Producto Terminado');
             $table->string('descripcion')->nullable();
             $table->timestamps();

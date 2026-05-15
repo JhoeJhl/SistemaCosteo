@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources\Almacens\Schemas;
 
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\ToggleButtons;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
@@ -14,24 +14,40 @@ class AlmacenForm
     {
         return $schema
             ->components([
-                Section::make('Creacion de un Proveedor')
+                Section::make('Registro de Almacén')
+                    ->description('Complete la información operativa del almacén.')
+                    ->icon('heroicon-m-building-storefront')
                     ->schema([
                         TextInput::make('nombre')
-                            ->label('Nombre del Producto')
-                            ->required(),
-                        Select::make('tipo')
-                            ->label('Tipo de Producto')
-                            ->options([
-                                'materia_prima' => 'Materia prima',
-                                'producto_terminado' => 'Producto terminado',
-                                'camara_fria' => 'Camara fria',
-                            ])
-                            ->required(),
-                        Textarea::make('descripcion')
-                            ->placeholder('Comentario...')
-                            ->columnSpanFull(),
-                    ])->columns(2)
+                            ->label('Nombre del Almacén')
+                            ->required()
+                            ->placeholder('Ej. Cámara Fría Norte')
+                            ->prefixIcon('heroicon-m-identification'),
 
+                        ToggleButtons::make('tipo')
+                            ->label('Tipo de Operación')
+                            ->options([
+                                'MP' => 'Materia Prima',
+                                'PT' => 'Producto Terminado',
+                            ])
+                            ->icons([
+                                'MP' => 'heroicon-m-archive-box',
+                                'PT' => 'heroicon-m-cube',
+                            ])
+                            ->colors([
+                                'MP' => 'warning',
+                                'PT' => 'info',
+                            ])
+                            ->inline()
+                            ->required(),
+
+                        Textarea::make('descripcion')
+                            ->label('Descripción / Ubicación')
+                            ->rows(5)
+                            ->placeholder(
+                                'Ingrese observaciones, ubicación física o capacidad operativa.'
+                            ),
+                    ]),
             ]);
     }
 }

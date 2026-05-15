@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Filament\Resources\Almacens;
 
 use App\Filament\Resources\Almacens\Pages\CreateAlmacen;
@@ -16,43 +15,75 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 
+
 class AlmacenResource extends Resource
 {
+
     protected static ?string $model = Almacen::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static ?string $recordTitleAttribute = 'nombre';
+
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-building-storefront';
+
+
+    protected static ?string $modelLabel = 'Almacén';
+    protected static ?string $pluralModelLabel = 'Almacenes';
+
 
     public static function form(Schema $schema): Schema
+
     {
+
         return AlmacenForm::configure($schema);
     }
 
+
+
     public static function infolist(Schema $schema): Schema
+
     {
+
         return AlmacenInfolist::configure($schema);
     }
 
+
+
     public static function table(Table $table): Table
+
     {
+
         return AlmacensTable::configure($table);
     }
 
+
+
     public static function getRelations(): array
+
     {
+
         return [
+
             //
+
         ];
     }
 
+
+
     public static function getPages(): array
+
     {
+
         return [
+
             'index' => ListAlmacens::route('/'),
+
             'create' => CreateAlmacen::route('/create'),
+
             'view' => ViewAlmacen::route('/{record}'),
+
             'edit' => EditAlmacen::route('/{record}/edit'),
+
         ];
     }
 }

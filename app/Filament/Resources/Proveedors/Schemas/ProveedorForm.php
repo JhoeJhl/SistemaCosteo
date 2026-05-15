@@ -11,37 +11,51 @@ use Filament\Forms\Components\Toggle;
 
 class ProveedorForm
 {
-public static function configure(Schema $schema): Schema
+    public static function configure(Schema $schema): Schema
     {
         return $schema
             ->components([
+                
+                // Cuadrícula principal limpia de 3 columnas
                 Grid::make(3)
-                    ->schema([ 
+                    ->schema([
                         
-                        // Columna izquierda 
+                        // Columna izquierda (Ocupa 2/3 del espacio)
                         Section::make('Información de Contacto')
+                            ->description('Datos personales y de localización del productor.')
+                            ->icon('heroicon-m-identification')
                             ->schema([ 
                                 TextInput::make('nombre')
+                                    ->label('Nombre o Razón Social')
                                     ->required()
-                                    ->maxLength(255),
+                                    ->maxLength(255)
+                                    ->prefixIcon('heroicon-m-user'),
                                     
                                 TextInput::make('telefono')
+                                    ->label('Teléfono / WhatsApp')
                                     ->tel()
                                     ->prefixIcon('heroicon-m-phone'),
                                     
                                 TextInput::make('direccion')
-                                    ->columnSpanFull(),
+                                    ->label('Dirección Exacta')
+                                    ->columnSpanFull()
+                                    ->prefixIcon('heroicon-m-map-pin'),
                             ])
                             ->columns(2)
-                            ->columnSpan(2),
+                            ->columnSpan(['default' => 3, 'lg' => 2]), // Se adapta en celulares, ocupa 2 en PC
 
-                        // Columna Derecha 
+                        // Columna Derecha (Ocupa 1/3 del espacio)
                         Section::make('Operación')
+                            ->description('Condiciones logísticas.')
+                            ->icon('heroicon-m-truck')
                             ->schema([ 
                                 TextInput::make('comunidad')
-                                    ->maxLength(255),
+                                    ->label('Comunidad Base')
+                                    ->maxLength(255)
+                                    ->prefixIcon('heroicon-m-map'),
 
                                 Select::make('tipo_terreno')
+                                    ->label('Tipo de Terreno')
                                     ->options([
                                         'propio' => 'Propio',
                                         'alquilado' => 'Alquilado',
@@ -55,7 +69,7 @@ public static function configure(Schema $schema): Schema
                                     ->onColor('success')
                                     ->inline(false),
                             ])
-                            ->columnSpan(1), 
+                            ->columnSpan(['default' => 3, 'lg' => 1]), // Se adapta en celulares, ocupa 1 en PC
                     ]),
 
             ]);

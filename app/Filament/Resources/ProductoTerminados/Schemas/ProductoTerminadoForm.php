@@ -37,7 +37,7 @@ class ProductoTerminadoForm
                                 ->native(false)
                                 ->required(),
                         ])
-                    ]),
+                    ])->columnSpan('full'),
             ]);
     }
 }

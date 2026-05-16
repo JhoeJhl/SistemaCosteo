@@ -28,6 +28,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->brandName('Planta de Transformación de Asaí')
             ->colors([
                 'primary' => Color::Amber,
             ])

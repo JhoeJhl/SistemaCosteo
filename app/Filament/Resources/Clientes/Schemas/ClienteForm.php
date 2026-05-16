@@ -49,7 +49,7 @@ class ClienteForm
                                 ->label('Dirección de Entrega')
                                 ->maxLength(255),
                         ]),
-                    ]),
+                    ])->columnSpan('full'),
             ]);
     }
 }

@@ -47,7 +47,7 @@ class AlmacenForm
                             ->placeholder(
                                 'Ingrese observaciones, ubicación física o capacidad operativa.'
                             ),
-                    ]),
+                    ])->columnSpan('full'),
             ]);
     }
 }

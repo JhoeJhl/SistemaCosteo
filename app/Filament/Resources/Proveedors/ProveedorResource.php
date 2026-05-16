@@ -9,6 +9,9 @@ use App\Filament\Resources\Proveedors\Pages\ViewProveedor;
 use App\Filament\Resources\Proveedors\Schemas\ProveedorForm;
 use App\Filament\Resources\Proveedors\Schemas\ProveedorInfolist;
 use App\Filament\Resources\Proveedors\Tables\ProveedorsTable;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TernaryFilter;
+
 use App\Models\Proveedor;
 use BackedEnum;
 use Filament\Resources\Resource;
@@ -21,7 +24,6 @@ class ProveedorResource extends Resource
     protected static ?string $model = Proveedor::class;
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-truck';
-
     protected static ?string $label = 'Proveedor';
     protected static ?string $pluralModelLabel = 'Proveedores';
 
@@ -43,7 +45,7 @@ class ProveedorResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+           //
         ];
     }
 

@@ -41,7 +41,7 @@ class CampaniaForm
                             ->helperText('Al activar esta campaña, cualquier otra campaña en curso se cerrará automáticamente.')
                             ->onColor('success')
                             ->columnSpanFull(),
-                    ])->columns(2),
+                    ])->columnSpan('full'),
             ]);
     }
 }

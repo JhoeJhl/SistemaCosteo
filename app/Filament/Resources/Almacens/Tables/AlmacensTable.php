@@ -4,7 +4,7 @@ namespace App\Filament\Resources\Almacens\Tables;
 
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\Layout\Stack;
+use Filament\Support\Enums\FontWeight;
 
 class AlmacensTable
 {
@@ -12,43 +12,78 @@ class AlmacensTable
     {
         return $table
             ->columns([
-                // Stack apila los elementos uno debajo del otro dentro de la misma "celda" o tarjeta
-                Stack::make([
-                    
-                    // 1. Nombre del Almacén con un ícono dinámico según el tipo
-                    TextColumn::make('nombre')
-                        ->weight('bold')
-                        ->size('TextColumnSize::Large') // Texto más grande para el título
-                        ->searchable()
-                        ->icon(fn ($record) => $record->tipo === 'MP' ? 'heroicon-m-archive-box' : 'heroicon-m-cube')
-                        ->iconColor(fn ($record) => $record->tipo === 'MP' ? 'warning' : 'info'),
 
-                    // 2. La etiqueta (Badge) del tipo de operación
-                    TextColumn::make('tipo')
-                        ->badge()
-                        ->color(fn (string $state): string => match ($state) {
-                            'MP' => 'warning', // Naranja
-                            'PT' => 'info',    // Azul
-                        })
-                        ->formatStateUsing(fn ($state) => match ($state) {
-                            'MP' => 'Materia Prima (Fruta)',
-                            'PT' => 'Producto Terminado (Pulpa)',
-                        }),
+                // Nombre principal del almacén
+                TextColumn::make('nombre')
+                    ->label('Almacén')
+                    ->searchable()
+                    ->sortable()
+                    ->weight(FontWeight::Bold)
+                    ->icon(fn ($record) =>
+                        $record->tipo === 'MP'
+                            ? 'heroicon-m-building-storefront'
+                            : 'heroicon-m-cube'
+                    )
+                    ->iconColor(fn ($record) =>
+                        $record->tipo === 'MP'
+                            ? 'warning'
+                            : 'success'
+                    ),
 
-                    // 3. Una breve descripción en texto gris
-                    TextColumn::make('descripcion')
-                        ->color('gray')
-                        ->limit(80)
-                        ->size('sm')
-                        ->default('Sin descripción adicional.'),
-                        
-                ])->space(3), // Añade un espacio elegante entre el nombre, el badge y la descripción
+                // Tipo de almacén
+                TextColumn::make('tipo')
+                    ->label('Tipo')
+                    ->badge()
+                    ->sortable()
+                    ->alignCenter()
+                    ->color(fn (string $state): string => match ($state) {
+                        'MP' => 'warning',
+                        'PT' => 'success',
+                        default => 'gray',
+                    })
+                    ->formatStateUsing(fn ($state) => match ($state) {
+                        'MP' => 'Materia Prima',
+                        'PT' => 'Producto Terminado',
+                        default => 'Sin tipo',
+                    }),
+
+                // Descripción
+                TextColumn::make('descripcion')
+                    ->label('Descripción')
+                    ->limit(60)
+                    ->wrap()
+                    ->color('gray')
+                    ->default('Sin descripción registrada.'),
+
+                // Fecha de creación
+                TextColumn::make('created_at')
+                    ->label('Fecha Registro')
+                    ->dateTime('d/m/Y H:i')
+                    ->sortable()
+                    ->icon('heroicon-m-calendar-days')
+                    ->color('gray'),
+
+                // Última actualización
+                TextColumn::make('updated_at')
+                    ->label('Última Actualización')
+                    ->since()
+                    ->sortable()
+                    ->icon('heroicon-m-clock')
+                    ->color('info'),
+
             ])
-            // --- LA MAGIA VISUAL: Transforma las filas en una cuadrícula de tarjetas ---
-            ->contentGrid([
-                'md' => 2, // En monitores medianos muestra 2 tarjetas por fila
-                'xl' => 3, // En monitores grandes muestra 3 tarjetas por fila
-            ])
-            ->paginated(false); // Como son pocos almacenes, quitamos la paginación para mantener la pantalla limpia
+
+            // Estilo ERP empresarial
+            ->striped()
+
+            ->defaultSort('created_at', 'desc')
+
+            ->paginated([10, 25, 50])
+
+            ->emptyStateHeading('No existen almacenes registrados')
+
+            ->emptyStateDescription('Crea un almacén para comenzar a administrar inventario.')
+
+            ->emptyStateIcon('heroicon-o-building-storefront');
     }
 }

@@ -6,29 +6,28 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('producto_terminados', function (Blueprint $table) {
+        // Ya la llamamos 'productos' directamente para dejar atrás el nombre viejo
+        Schema::create('productos_terminados', function (Blueprint $table) {
             $table->id();
 
+            // 1. EL CAMPO QUE FALTABA (Obligatorio para identificar qué es)
+            $table->string('nombre')->comment('Ej: Pulpa Premium, Fruta en bruto, Bolsas 1kg');
 
-            $table->enum('calidad', ['18% Sol', '14-17% Sol', '<14% Sol']); // calidad de pulpa
+            // 2. TIPO DE PRODUCTO (Opcional, pero muy útil para un ERP)
+            $table->enum('tipo', ['materia_prima', 'producto_terminado', 'insumo'])->default('producto_terminado');
 
-            $table->decimal('tamanio_empaque_kg', 8, 2); // tamaño
-
+            // 3. ATRIBUTOS ESPECÍFICOS (Ahora son nullable porque un insumo no tiene "calidad de pulpa")
+            $table->enum('calidad', ['18% Sol', '14-17% Sol', '<14% Sol'])->nullable();
+            $table->decimal('tamanio_empaque_kg', 8, 2)->nullable();
             
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('producto_terminados');
+        Schema::dropIfExists('productos');
     }
 };

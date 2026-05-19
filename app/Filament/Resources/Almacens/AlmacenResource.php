@@ -14,7 +14,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
-
+use Override;
 
 class AlmacenResource extends Resource
 {
@@ -85,5 +85,16 @@ class AlmacenResource extends Resource
             'edit' => EditAlmacen::route('/{record}/edit'),
 
         ];
+    }
+
+    // Boton de nuevo registro
+    public static function getModelLabel(): string
+    {
+        return 'Almacén';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'Almacenes';
     }
 }

@@ -31,7 +31,7 @@ class CampaniasTable
                     ->label('Fin')
                     ->formatStateUsing(fn ($state) => $state ? $state->format('d M, Y') : 'En curso...')
                     ->sortable(),
-
+                    
                 IconColumn::make('is_active')
                     ->label('Estado')
                     ->boolean()

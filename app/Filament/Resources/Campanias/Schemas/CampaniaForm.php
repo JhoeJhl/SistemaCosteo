@@ -17,20 +17,22 @@ class CampaniaForm
                 Section::make('Configuración de la Campaña')
                     ->description('Define el periodo de procesamiento.')
                     ->schema([
+                        // Campo nombre unico
                         TextInput::make('nombre')
                             ->label('Nombre de la Campaña')
                             ->placeholder('Ej. Campaña 2026 - Fase 1')
                             ->required()
-                            ->unique(ignoreRecord: true)
+                            ->unique(ignoreRecord: true) 
                             ->maxLength(255)
                             ->columnSpanFull(),
-
+                        //Campo fecha inicio de campaña
                         DatePicker::make('fecha_inicio')
                             ->label('Fecha de Inicio')
                             ->required()
                             ->native(false) //calendario moderno
                             ->displayFormat('d/m/Y'),
 
+                        //Campo fecha fin de la campaña (opcional) puede ser 
                         DatePicker::make('fecha_fin')
                             ->label('Fecha de Fin')
                             ->native(false)

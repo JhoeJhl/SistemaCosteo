@@ -22,8 +22,8 @@ class ProductoTerminadoResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-cube';
 
-    protected static ?string $label = 'Producto Terminado';
-    protected static ?string $pluralModelLabel = 'Productos Terminados';
+    protected static ?string $label = 'Producto';
+    protected static ?string $pluralModelLabel = 'Productos';
 
     public static function form(Schema $schema): Schema
     {

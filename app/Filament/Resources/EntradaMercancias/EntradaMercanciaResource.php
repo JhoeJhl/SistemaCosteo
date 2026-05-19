@@ -20,7 +20,7 @@ class EntradaMercanciaResource extends Resource
 {
     protected static ?string $model = EntradaMercancia::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-archive-box-arrow-down';
 
     protected static ?string $recordTitleAttribute = 'id';
 
@@ -40,7 +40,7 @@ class EntradaMercanciaResource extends Resource
     }
 
     public static function getRelations(): array
-    {
+    { 
         return [
             //
         ];

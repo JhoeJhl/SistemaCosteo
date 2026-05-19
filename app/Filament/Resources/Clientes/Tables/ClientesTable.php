@@ -13,7 +13,7 @@ class ClientesTable
             ->columns([
 
                 // Columna C.I o NIT
-                TextColumn::make('ci_bit')
+                TextColumn::make('nit_ci')
                     ->label('NIT o C.I.')
                     ->searchable(),
 

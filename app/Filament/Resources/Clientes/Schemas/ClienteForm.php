@@ -17,7 +17,6 @@ class ClienteForm
         return $schema
             ->components([
 
-
                 // Bloque 1: Identificación Comercial
                 Section::make('Identificación Comercial')
                     ->description('Datos oficiales para facturación y registro.')

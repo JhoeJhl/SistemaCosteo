@@ -2,10 +2,7 @@
 
 namespace App\Filament\Resources\EntradaMercancias\Tables;
 
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
-use Filament\Actions\ViewAction;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class EntradaMercanciasTable
@@ -14,19 +11,19 @@ class EntradaMercanciasTable
     {
         return $table
             ->columns([
-                //
+
+                TextColumn::make('proveedor_id')
+                    ->label('Nombre Proveedor')
+                    ->searchable(),
             ])
-            ->filters([
-                //
-            ])
-            ->recordActions([
-                ViewAction::make(),
-                EditAction::make(),
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
-            ]);
-    }
+            ->striped()
+            ->defaultSort('created_at', 'desc')
+            ->paginated([10,25,50])
+            
+            //Cuando no hay informacion
+            ->emptyStateIcon('No hay ninguna Entrada de Mercancia registrado')
+            ->emptyStateDescription('Crea una entrada de mercancia para administrar')
+            ->emptyStateIcon('heroicon-o-archive-box-arrow-down')
+            ->searchPlaceholder('Buscar por Codigo de Entrada');
+    }       
 }

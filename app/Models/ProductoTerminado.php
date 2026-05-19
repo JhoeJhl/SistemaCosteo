@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class ProductoTerminado extends Model
 {
     protected $fillable = [
+        'nombre',
+        'tipo',
         'calidad',
         'tamanio_empaque_kg',
     ];
@@ -14,8 +16,8 @@ class ProductoTerminado extends Model
     protected function casts(): array
     {
         return
-        [
-            'tamano_empaque_kg' => 'decimal:2', // redondeo a 2 decimales
-        ];
+            [
+                'tamanio_empaque_kg' => 'decimal:2', // redondeo a 2 decimales
+            ];
     }
 }

@@ -59,8 +59,8 @@ class EntradaMercanciaForm
                             ->inline(false)
                             ->columnSpanFull(),
                     ])
-                    ->columnSpan(['default' => 12, 'lg' => 7]), // Ocupa el lado izquierdo en PC
-
+                    ->columnSpan(['full']), // Ocupa el lado izquierdo en PC
+                    
                 // Sección 2: Costos Adicionales (Repeater)
                 Section::make('Costos Adicionales')
                     ->description('Agregue fletes, estibadores u otros gastos de esta entrada.')
@@ -86,7 +86,7 @@ class EntradaMercanciaForm
                             ->addActionLabel('Agregar Costo Adicional')
                             ->reorderableWithButtons(),
                     ])
-                    ->columnSpan(['default' => 12, 'lg' => 5]), // Ocupa el lado derecho en PC
+                    ->columnSpan(['full']), // Ocupa el lado derecho en PC
 
             ]);
     }

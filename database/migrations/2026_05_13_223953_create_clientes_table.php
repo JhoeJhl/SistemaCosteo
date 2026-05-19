@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('clientes', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
+            $table->string('nit_ci');
             $table->enum('tipo', ['mayorista', 'minorista', 'exportador'])->default('minorista');
             $table->string('telefono')->nullable();
             $table->string('direccion')->nullable();

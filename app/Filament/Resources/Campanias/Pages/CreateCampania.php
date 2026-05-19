@@ -19,7 +19,7 @@ class CreateCampania extends CreateRecord
     //Breadcrumb
     public function getBreadcrumb(): string
     {
-        return 'Registrar';
+        return 'Registrar Campaña';
     }
 
     // Boton de guardar

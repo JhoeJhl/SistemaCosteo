@@ -41,6 +41,11 @@ class CampaniasTable
                     ->falseColor('gray')
                     ->alignCenter(),
             ])
-            ->defaultSort('fecha_inicio', 'desc'); // Muestra las campañas más nuevas primero
+            ->striped()
+            ->defaultSort('created_at', 'desc')
+            ->paginated([10, 25, 50])
+            ->emptyStateHeading('No existen Campañas Registradas')
+            ->emptyStateDescription('Crea una campaña para comenzar a administrar las Campañas')
+            ->emptyStateIcon('heroicon-o-calendar-days');
     }
 }

@@ -13,7 +13,17 @@ class ListCampanias extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make(),
+            CreateAction::make()->label('Nueva Campaña'),
         ];
+    }
+
+    public function getTitle(): string
+    {
+        return 'Campañas';
+    }
+
+    public function getBreadcrumb(): ?string
+    {
+        return 'Lista de Campañas';
     }
 }

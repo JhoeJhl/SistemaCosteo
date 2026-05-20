@@ -35,6 +35,7 @@ class CampaniaForm
                         //Campo fecha fin de la campaña (opcional) puede ser 
                         DatePicker::make('fecha_fin')
                             ->label('Fecha de Fin')
+                            ->required()
                             ->native(false)
                             ->displayFormat('d/m/Y'),
 

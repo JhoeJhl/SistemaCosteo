@@ -22,24 +22,43 @@ class ClienteForm
                     ->description('Datos oficiales para facturación y registro.')
                     ->icon('heroicon-m-identification')
                     ->schema([
-                        Grid::make(3)->schema([
+                        Grid::make(2)->schema([
                             TextInput::make('nombre')
                                 ->label('Nombre Comercial o Razón Social')
                                 ->required()
                                 ->maxLength(255)
                                 ->prefixIcon('heroicon-m-briefcase')
-                                ->columnSpan(['default' => 3, 'md' => 2]),
+                                ->columnSpan(['full']),
 
-                            TextInput::make('nit_ci')
-                                ->label('NIT o C.I.')
-                                ->required()
-                                ->prefixIcon('heroicon-m-hashtag')
-                                
-                                ->maxLength(20)
-                                ->extraInputAttributes([
-                                    'oninput' => "this.value = this.value.replace(/[^0-9]/g, '')",
+                            Select::make('tipo_documento')
+                                ->label('Tipo de Documento')
+                                ->options([
+                                    'ci' => 'Cédula de Identidad | C.I',
+                                    'nit' => 'Número de Identificación Tributaria | NIT',
                                 ])
-                                ->columnSpan(['default' => 3, 'md' => 1]),
+                                ->native(false)
+                                ->live()
+                                ->default('ci')
+                                ->required(),
+
+                            TextInput::make('numero_documento')
+                                ->label(
+                                    fn(Get $get) =>
+                                    match ($get('tipo_documento')) {
+                                        'ci' => 'Número de C.I.',
+                                        'nit' => 'Número de NIT',
+                                        default => 'Documento',
+                                    }
+                                )
+                                ->placeholder(
+                                    fn(Get $get) =>
+                                    match ($get('tipo_documento')) {
+                                        'ci' => 'Ej: 1234567',
+                                        'nit' => 'Ej: 1020304050',
+                                        default => '',
+                                    }
+                                )
+                                ->required(),
 
                             Select::make('tipo')
                                 ->label('Tipo de Cliente')
@@ -53,11 +72,11 @@ class ClienteForm
                                 ->native(false)
                                 ->required()
                                 ->live()
-                                ->columnSpan(['default' => 3, 'md' => 2]),
+                                ->columnSpan(['default' => 4, 'md' => 2]),
 
                             // Campo para crear un nuevo tipo de cliente
                             TextInput::make('nuevo_tipo')
-                                ->label('Especifique el nuevo tipo')
+                                ->label('Especifique el nuevo tipo de Cliente')
                                 ->placeholder('Ej. Distribuidor Regional')
                                 ->hidden(fn(Get $get) => $get('tipo') !== 'otro')
                                 ->requiredIf('tipo', 'otro')

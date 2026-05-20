@@ -13,9 +13,13 @@ return new class extends Migration
     {
         Schema::create('almacens', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre'); 
-            $table->enum('tipo', ['MP', 'PT'])->comment('MP: Materia Prima, PT: Producto Terminado');
-            $table->string('descripcion')->nullable();
+
+            $table->string('codigo_almacen')->unique()->comment('Código único generado');
+            $table->string('nombre');
+            $table->string('estado')->default('activo')->comment('Puede ser activo, inactivo o uno personalizado');
+            $table->string('tipo')->comment('MP o PT');
+            $table->text('descripcion')->nullable();
+
             $table->timestamps();
         });
     }

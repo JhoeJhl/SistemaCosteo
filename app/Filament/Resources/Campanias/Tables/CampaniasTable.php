@@ -2,50 +2,123 @@
 
 namespace App\Filament\Resources\Campanias\Tables;
 
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
-use Filament\Actions\ViewAction;
+use Filament\Tables\Table;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
+use Filament\Support\Enums\FontWeight;
+use Filament\Support\Enums\IconPosition;
+
+// Acciones
+use Filament\Actions\ViewAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 
 class CampaniasTable
 {
     public static function configure(Table $table): Table
     {
         return $table
+            ->heading('Gestión de Campañas')
+            ->description('Administra las campañas de producción y controla los costos fijos e indirectos (M1) desde la opción de gestión.')
+            
             ->columns([
+
+                // Código de campaña
+                TextColumn::make('codigo')
+                    ->label('Código')
+                    ->badge()
+                    ->color('primary')
+                    ->searchable()
+                    ->sortable()
+                    ->weight(FontWeight::SemiBold),
+
+                // Nombre principal
                 TextColumn::make('nombre')
                     ->label('Campaña')
                     ->searchable()
                     ->sortable()
-                    ->weight('bold'),
+                    ->weight(FontWeight::Bold)
+                    ->icon('heroicon-m-megaphone')
+                    ->iconColor('primary'),
 
+                // Fecha inicio
                 TextColumn::make('fecha_inicio')
                     ->label('Inicio')
-                    ->date('d M, Y') 
+                    ->date('d M Y')
+                    ->sortable()
+                    ->icon('heroicon-m-calendar-days')
+                    ->iconColor('success'),
+
+                // Fecha fin
+                TextColumn::make('fecha_fin')
+                    ->label('Finalización')
+                    ->formatStateUsing(
+                        fn ($state) => $state
+                            ? $state->format('d M Y')
+                            : 'En curso'
+                    )
+                    ->icon('heroicon-m-calendar-days')
+                    ->iconColor('success')
                     ->sortable(),
 
-                TextColumn::make('fecha_fin')
-                    ->label('Fin')
-                    ->formatStateUsing(fn ($state) => $state ? $state->format('d M, Y') : 'En curso...')
-                    ->sortable(),
-                    
+                // Estado
                 IconColumn::make('is_active')
                     ->label('Estado')
                     ->boolean()
-                    ->trueIcon('heroicon-o-check-circle')
-                    ->falseIcon('heroicon-o-x-circle')
+                    ->trueIcon('heroicon-m-check-circle')
+                    ->falseIcon('heroicon-m-x-circle')
                     ->trueColor('success')
-                    ->falseColor('gray')
+                    ->falseColor('danger')
                     ->alignCenter(),
+
             ])
+
+            // Diseño visual
             ->striped()
             ->defaultSort('created_at', 'desc')
             ->paginated([10, 25, 50])
-            ->emptyStateHeading('No existen Campañas Registradas')
-            ->emptyStateDescription('Crea una campaña para comenzar a administrar las Campañas')
-            ->emptyStateIcon('heroicon-o-calendar-days');
+
+            // Cambiar placeholder del buscador
+            ->searchPlaceholder('Buscar por código de campaña...')
+
+            // Acciones modernas sin botón agrupado
+            ->actions([
+
+                ViewAction::make()
+                    ->label('Ver Resumen')
+                    ->icon('heroicon-m-eye')
+                    ->color('gray')
+                    ->tooltip('Visualizar información completa de la campaña')
+                    ->iconButton(),
+
+                EditAction::make()
+                    ->label('Gestionar Costos')
+                    ->icon('heroicon-m-currency-dollar')
+                    ->color('info')
+                    ->tooltip('Agregar o modificar costos fijos e indirectos')
+                    ->iconButton(),
+
+                DeleteAction::make()
+                    ->label('Eliminar')
+                    ->icon('heroicon-m-trash')
+                    ->color('danger')
+                    ->tooltip('Eliminar campaña')
+                    ->iconButton(),
+
+            ])
+
+            // Acciones masivas
+            ->bulkActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                ]),
+            ])
+
+            // Estado vacío profesional
+            ->emptyStateIcon('heroicon-o-megaphone')
+            ->emptyStateHeading('No existen campañas registradas')
+            ->emptyStateDescription('Crea una nueva campaña para comenzar a administrar costos y producción.');
     }
 }

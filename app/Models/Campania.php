@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\CostoCampania;
 
 class Campania extends Model
 {
@@ -34,7 +35,7 @@ class Campania extends Model
     }
 
     // relacion con costo campania
-    public function costosCampanias()
+    public function costoCampanias()
     {
         return $this->hasMany(CostoCampania::class, 'campania_id');
     }

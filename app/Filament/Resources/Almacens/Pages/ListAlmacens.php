@@ -32,8 +32,8 @@ class ListAlmacens extends ListRecords
 
     // tamaño de la tabla
 
-    public function getMaxContentWidth(): Width|string|null
-    {
-        return Width::Full;
-    }
+    // public function getMaxContentWidth(): Width|string|null
+    // {
+    //     return Width::Full;
+    // }
 }

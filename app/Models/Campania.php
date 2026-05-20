@@ -22,16 +22,20 @@ class Campania extends Model
         ];
     }
 
+    //Funcion para tener una campaña activa 
     protected static function booted(): void
     {
-        // El evento "saving" se ejecuta justo antes de crear o actualizar en la BD
         static::saving(function (Campania $campania) {
             
-            // Si la campaña que estamos guardando viene como ACTIVA...
             if ($campania->is_active) {
-                // buscamos todas las demás campañas y las desactivamos
                 static::where('id', '!=', $campania->id)->update(['is_active' => false]);
             }
         });
+    }
+
+    // relacion con costo campania
+    public function costosCampanias()
+    {
+        return $this->hasMany(CostoCampania::class, 'campania_id');
     }
 }

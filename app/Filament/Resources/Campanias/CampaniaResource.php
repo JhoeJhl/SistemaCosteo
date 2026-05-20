@@ -11,6 +11,7 @@ use App\Filament\Resources\Campanias\Schemas\CampaniaInfolist;
 use App\Filament\Resources\Campanias\Tables\CampaniasTable;
 use App\Models\Campania;
 use BackedEnum;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -44,7 +45,7 @@ class CampaniaResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\CostoCampaniasRelationManager::class,
         ];
     }
 

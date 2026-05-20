@@ -3,8 +3,11 @@
 namespace App\Filament\Resources\Almacens\Pages;
 
 use App\Filament\Resources\Almacens\AlmacenResource;
-use Filament\Actions\EditAction;
+use Filament\Actions\CreateAction;
+
 use Filament\Resources\Pages\ViewRecord;
+use Illuminate\Contracts\Support\Htmlable;
+use Override;
 
 class ViewAlmacen extends ViewRecord
 {
@@ -13,7 +16,18 @@ class ViewAlmacen extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            EditAction::make(),
+            CreateAction::make()->label('Editar Almacen'),
         ];
     }
+
+    public function getTitle(): string|Htmlable
+    {
+        return 'Visualizacion del Almacen';
+    }
+
+    public function getBreadcrumb(): string
+    {
+        return 'Visualizacion Almacen';
+    }
+
 }

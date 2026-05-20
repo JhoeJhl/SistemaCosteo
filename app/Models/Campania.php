@@ -8,6 +8,7 @@ use App\Models\CostoCampania;
 class Campania extends Model
 {
     protected $fillable = [
+        'codigo_campania',
         'nombre',
         'fecha_inicio',
         'fecha_fin',

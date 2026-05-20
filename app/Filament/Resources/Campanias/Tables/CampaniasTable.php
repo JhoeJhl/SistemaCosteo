@@ -26,7 +26,7 @@ class CampaniasTable
             ->columns([
 
                 // Código de campaña
-                TextColumn::make('codigo')
+                TextColumn::make('codigo_campania')
                     ->label('Código')
                     ->badge()
                     ->color('primary')

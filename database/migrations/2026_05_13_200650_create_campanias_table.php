@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('campanias', function (Blueprint $table) {
             $table->id();
+
+            $table->string('codigo_campania')->unique()->comment('Código único generado');
             $table->string('nombre')->unique();
             $table->date('fecha_inicio');
             $table->date('fecha_fin')->nullable(); // Puede ser nula si la campaña sigue abierta

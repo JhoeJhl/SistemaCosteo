@@ -18,7 +18,7 @@ class AlmacensTable
                     ->label('Código')
                     ->searchable()
                     ->sortable()
-                    ->copyable() // Permite copiar el código con un clic
+                    ->copyable()
                     ->weight(FontWeight::Bold)
                     ->color('primary'),
 

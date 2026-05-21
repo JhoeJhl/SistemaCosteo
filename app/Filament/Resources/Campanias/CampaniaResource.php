@@ -11,7 +11,8 @@ use Filament\Resources\Resource;
 
 // Pages
 use App\Filament\Resources\Campanias\Pages\EditCampania;
-use App\Filament\Resources\Campanias\Pages\ViewCampania;
+use App\Filament\Resources\Campanias\Pages\ManageCostoCampania;
+
 use App\Filament\Resources\Campanias\Pages\ListCampanias;
 use App\Filament\Resources\Campanias\Pages\CreateCampania;
 
@@ -40,9 +41,6 @@ class CampaniaResource extends Resource
     protected static ?string $modelLabel = 'Campaña';
 
     protected static ?string $pluralModelLabel = 'Campañas';
-
-
-    protected static ?int $navigationSort = 2;
 
     public static function form(Schema $schema): Schema
     {
@@ -223,6 +221,7 @@ class CampaniaResource extends Resource
             'create' => CreateCampania::route('/create'),
             // 'view' => ViewCampania::route('/{record}'),
             'edit' => EditCampania::route('/{record}/edit'),
-        ];
+            'costos' => ManageCostoCampania::route('/{record}/costos'),     
+            ];
     }
 }

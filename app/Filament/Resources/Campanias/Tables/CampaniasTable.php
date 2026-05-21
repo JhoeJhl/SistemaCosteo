@@ -2,11 +2,12 @@
 
 namespace App\Filament\Resources\Campanias\Tables;
 
+use App\Filament\Resources\Campanias\CampaniaResource;
+use Filament\Actions\Action;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Support\Enums\FontWeight;
-use Filament\Support\Enums\IconPosition;
 
 // Acciones
 use Filament\Actions\ViewAction;
@@ -22,7 +23,7 @@ class CampaniasTable
         return $table
             ->heading('Gestión de Campañas')
             ->description('Administra las campañas de producción y controla los costos fijos e indirectos (M1) desde la opción de gestión.')
-            
+
             ->columns([
 
                 // Código de campaña
@@ -55,7 +56,7 @@ class CampaniasTable
                 TextColumn::make('fecha_fin')
                     ->label('Finalización')
                     ->formatStateUsing(
-                        fn ($state) => $state
+                        fn($state) => $state
                             ? $state->format('d M Y')
                             : 'En curso'
                     )
@@ -81,7 +82,7 @@ class CampaniasTable
             ->paginated([10, 25, 50])
 
             // Cambiar placeholder del buscador
-            ->searchPlaceholder('Buscar por código de campaña...')
+            ->searchPlaceholder('Buscar por Código...')
 
             // Acciones modernas sin botón agrupado
             ->actions([
@@ -94,10 +95,10 @@ class CampaniasTable
                     ->iconButton(),
 
                 EditAction::make()
-                    ->label('Gestionar Costos')
+                    ->label('Editar Campaña')
                     ->icon('heroicon-m-currency-dollar')
                     ->color('info')
-                    ->tooltip('Agregar o modificar costos fijos e indirectos')
+                    ->tooltip('Edicion de la campaña')
                     ->iconButton(),
 
                 DeleteAction::make()
@@ -107,6 +108,23 @@ class CampaniasTable
                     ->tooltip('Eliminar campaña')
                     ->iconButton(),
 
+                Action::make('administrar_costos')
+                    ->label('Centro Financiero')
+                    ->icon('heroicon-m-building-library')
+                    ->color('success')
+                    ->tooltip('Administrar costos fijos e indirectos')
+                    ->button()
+                    ->outlined()
+                    ->extraAttributes([
+                        'class' => 'transition-all duration-200 hover:scale-105',
+                    ])
+                    ->url(
+                        fn($record) =>
+                        CampaniaResource::getUrl(
+                            'costos',
+                            ['record' => $record]
+                        )
+                    ),
             ])
 
             // Acciones masivas

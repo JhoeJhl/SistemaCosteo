@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Campanias\Pages;
 
 use BackedEnum;
 
+use Filament\Actions\Action;
 use Filament\Tables\Table;
 use Filament\Schemas\Schema;
 use Filament\Actions\CreateAction;
@@ -64,12 +65,7 @@ class ManageCostoCampania extends ManageRelatedRecords
         return 'Gestión Financiera';
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | KPIs
-    |--------------------------------------------------------------------------
-    */
-
+    // Kips
     protected function getHeaderWidgets(): array
     {
         return [
@@ -77,12 +73,7 @@ class ManageCostoCampania extends ManageRelatedRecords
         ];
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | HEADER ACTIONS
-    |--------------------------------------------------------------------------
-    */
-
+    // Header 
     protected function getHeaderActions(): array
     {
         return [
@@ -92,18 +83,13 @@ class ManageCostoCampania extends ManageRelatedRecords
                 ->icon('heroicon-m-plus-circle')
                 ->color('success')
                 ->slideOver()
-                ->modalHeading('Registrar Costo Operativo')
+                ->modalHeading('Registrar Costo de la Campaña')
                 ->modalDescription('Complete la información financiera correspondiente.'),
 
         ];
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | FORM FILAMENT V4
-    |--------------------------------------------------------------------------
-    */
-
+   // Formulario de costos de campaña
     public function form(Schema $schema): Schema
     {
         return $schema
@@ -119,12 +105,7 @@ class ManageCostoCampania extends ManageRelatedRecords
                             ->columns(12)
                             ->schema([
 
-                                /*
-                                |--------------------------------------------------------------------------
-                                | TIPO COSTO
-                                |--------------------------------------------------------------------------
-                                */
-
+                               //campo clasificacion
                                 ToggleButtons::make('clasificacion')
                                     ->label('Tipo de Costo')
                                     ->options([
@@ -143,12 +124,7 @@ class ManageCostoCampania extends ManageRelatedRecords
                                         'md' => 6,
                                     ]),
 
-                                /*
-                                |--------------------------------------------------------------------------
-                                | FECHA
-                                |--------------------------------------------------------------------------
-                                */
-
+                                //campo fecha_registro
                                 DatePicker::make('fecha_registro')
                                     ->label('Fecha del Gasto')
                                     ->default(now())
@@ -160,12 +136,7 @@ class ManageCostoCampania extends ManageRelatedRecords
                                         'md' => 6,
                                     ]),
 
-                                /*
-                                |--------------------------------------------------------------------------
-                                | CATEGORIA
-                                |--------------------------------------------------------------------------
-                                */
-
+                                // campo categoria
                                 Select::make('categoria')
                                     ->label('Categoría Financiera')
                                     ->options([
@@ -186,12 +157,7 @@ class ManageCostoCampania extends ManageRelatedRecords
                                         'md' => 6,
                                     ]),
 
-                                /*
-                                |--------------------------------------------------------------------------
-                                | MONTO
-                                |--------------------------------------------------------------------------
-                                */
-
+                                //Campo monto
                                 TextInput::make('monto')
                                     ->label('Monto Registrado')
                                     ->numeric()
@@ -204,12 +170,7 @@ class ManageCostoCampania extends ManageRelatedRecords
                                         'md' => 6,
                                     ]),
 
-                                /*
-                                |--------------------------------------------------------------------------
-                                | DESCRIPCION
-                                |--------------------------------------------------------------------------
-                                */
-
+                                //campo descripcion
                                 Textarea::make('descripcion')
                                     ->label('Descripción del Costo')
                                     ->rows(4)
@@ -218,12 +179,7 @@ class ManageCostoCampania extends ManageRelatedRecords
                                     ->required()
                                     ->columnSpan('full'),
 
-                                /*
-                                |--------------------------------------------------------------------------
-                                | ESTADO PAGO
-                                |--------------------------------------------------------------------------
-                                */
-
+                                //campo estado de pago: Pagado | Pendiente
                                 ToggleButtons::make('esta_pagado')
                                     ->label('Estado del Pago')
                                     ->options([
@@ -253,23 +209,15 @@ class ManageCostoCampania extends ManageRelatedRecords
             ]);
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | TABLE ERP
-    |--------------------------------------------------------------------------
-    */
-
+    // tabla para visualizar datos
     public function table(Table $table): Table
     {
         return $table
             ->recordTitleAttribute('descripcion')
-
             ->striped()
-
             ->defaultSort('fecha_registro', 'desc')
-
             ->columns([
-
+                // columna fecha registro
                 TextColumn::make('fecha_registro')
                     ->label('Fecha')
                     ->date('d/m/Y')
@@ -277,6 +225,7 @@ class ManageCostoCampania extends ManageRelatedRecords
                     ->icon('heroicon-m-calendar-days')
                     ->color('gray'),
 
+                // columna clasificacaion
                 TextColumn::make('clasificacion')
                     ->label('Tipo')
                     ->badge()
@@ -288,13 +237,15 @@ class ManageCostoCampania extends ManageRelatedRecords
                             ? 'info'
                             : 'warning'
                     ),
-
+                
+                //columna categoria
                 TextColumn::make('categoria')
                     ->label('Categoría')
                     ->badge()
                     ->searchable()
                     ->color('gray'),
 
+                //columna descripcion
                 TextColumn::make('descripcion')
                     ->label('Descripción')
                     ->searchable()
@@ -302,6 +253,7 @@ class ManageCostoCampania extends ManageRelatedRecords
                     ->tooltip(fn ($record) => $record->descripcion)
                     ->weight(FontWeight::SemiBold),
 
+                //calumna monto
                 TextColumn::make('monto')
                     ->label('Monto')
                     ->money('BOB', true)
@@ -310,6 +262,7 @@ class ManageCostoCampania extends ManageRelatedRecords
                     ->color('success')
                     ->alignEnd(),
 
+                //columna estado
                 IconColumn::make('esta_pagado')
                     ->label('Estado')
                     ->boolean()
@@ -321,12 +274,7 @@ class ManageCostoCampania extends ManageRelatedRecords
 
             ])
 
-            /*
-            |--------------------------------------------------------------------------
-            | ACTIONS
-            |--------------------------------------------------------------------------
-            */
-
+            // columna de acciones sobre los registros
             ->actions([
 
                 EditAction::make()
@@ -346,16 +294,9 @@ class ManageCostoCampania extends ManageRelatedRecords
 
             ])
 
-            /*
-            |--------------------------------------------------------------------------
-            | EMPTY STATE
-            |--------------------------------------------------------------------------
-            */
-
+            // seccion cuando no hay datos
             ->emptyStateIcon('heroicon-o-banknotes')
-
             ->emptyStateHeading('No existen costos registrados')
-
             ->emptyStateDescription(
                 'Comience registrando costos operativos para esta campaña.'
             );

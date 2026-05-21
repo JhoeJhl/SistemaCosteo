@@ -40,4 +40,10 @@ class Campania extends Model
     {
         return $this->hasMany(CostoCampania::class, 'campania_id');
     }
+
+    //relacion con costos variables
+    public function costosVariables()
+    {
+        return $this->hasMany(CostoVariable::class, 'campania_id');
+    }
 }

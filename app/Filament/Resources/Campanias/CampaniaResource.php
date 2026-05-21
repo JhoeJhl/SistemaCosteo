@@ -15,7 +15,7 @@ use App\Filament\Resources\Campanias\Pages\ManageCostoCampania;
 
 use App\Filament\Resources\Campanias\Pages\ListCampanias;
 use App\Filament\Resources\Campanias\Pages\CreateCampania;
-
+use App\Filament\Resources\Campanias\Pages\ManageCostosVariables;
 // Form & Table
 use App\Filament\Resources\Campanias\Schemas\CampaniaForm;
 use App\Filament\Resources\Campanias\Tables\CampaniasTable;
@@ -219,9 +219,12 @@ class CampaniaResource extends Resource
         return [
             'index' => ListCampanias::route('/'),
             'create' => CreateCampania::route('/create'),
-            // 'view' => ViewCampania::route('/{record}'),
             'edit' => EditCampania::route('/{record}/edit'),
-            'costos' => ManageCostoCampania::route('/{record}/costos'),     
+            // 'view' => ViewCampania::route('/{record}'),
+            
+
+            'costos' => ManageCostoCampania::route('/{record}/costos'), 
+            'variables' => ManageCostosVariables::route('/{record}/costos-variables')
             ];
     }
 }

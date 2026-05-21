@@ -21,8 +21,12 @@ class CampaniasTable
     public static function configure(Table $table): Table
     {
         return $table
+
+            //header de la tabla
             ->heading('Gestión de Campañas')
-            ->description('Administra las campañas de producción y controla los costos fijos e indirectos (M1) desde la opción de gestión.')
+            ->description(
+                'Administra campañas de producción y controla módulos operativos y financieros.'
+            )
 
             ->columns([
 
@@ -30,7 +34,7 @@ class CampaniasTable
                 TextColumn::make('codigo_campania')
                     ->label('Código')
                     ->badge()
-                    ->color('primary')
+                    ->color('gray')
                     ->searchable()
                     ->sortable()
                     ->weight(FontWeight::SemiBold),
@@ -41,6 +45,10 @@ class CampaniasTable
                     ->searchable()
                     ->sortable()
                     ->weight(FontWeight::Bold)
+                    ->description(
+                        fn($record) =>
+                        'Inicio: ' . optional($record->fecha_inicio)?->format('d/m/Y')
+                    )
                     ->icon('heroicon-m-megaphone')
                     ->iconColor('primary'),
 
@@ -49,20 +57,25 @@ class CampaniasTable
                     ->label('Inicio')
                     ->date('d M Y')
                     ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->icon('heroicon-m-calendar-days')
-                    ->iconColor('success'),
+                    ->color('gray'),
 
                 // Fecha fin
                 TextColumn::make('fecha_fin')
                     ->label('Finalización')
+                    ->sortable()
+                    ->badge()
                     ->formatStateUsing(
-                        fn($state) => $state
+                        fn($state) =>
+                        $state
                             ? $state->format('d M Y')
                             : 'En curso'
                     )
-                    ->icon('heroicon-m-calendar-days')
-                    ->iconColor('success')
-                    ->sortable(),
+                    ->color(
+                        fn($state) =>
+                        $state ? 'gray' : 'success'
+                    ),
 
                 // Estado
                 IconColumn::make('is_active')
@@ -76,48 +89,34 @@ class CampaniasTable
 
             ])
 
-            // Diseño visual
             ->striped()
             ->defaultSort('created_at', 'desc')
             ->paginated([10, 25, 50])
+            ->searchPlaceholder('Buscar campaña por código...')
 
-            // Cambiar placeholder del buscador
-            ->searchPlaceholder('Buscar por Código...')
-
-            // Acciones modernas sin botón agrupado
+            // columna de acciones
             ->actions([
 
+                //accion de visualizar datos
                 ViewAction::make()
-                    ->label('Ver Resumen')
                     ->icon('heroicon-m-eye')
                     ->color('gray')
-                    ->tooltip('Visualizar información completa de la campaña')
+                    ->tooltip('Ver resumen de campaña')
                     ->iconButton(),
 
+                //accion de editar datos
                 EditAction::make()
-                    ->label('Editar Campaña')
-                    ->icon('heroicon-m-currency-dollar')
+                    ->icon('heroicon-m-pencil-square')
                     ->color('info')
-                    ->tooltip('Edicion de la campaña')
+                    ->tooltip('Editar Informacion')
                     ->iconButton(),
 
-                DeleteAction::make()
-                    ->label('Eliminar')
-                    ->icon('heroicon-m-trash')
-                    ->color('danger')
-                    ->tooltip('Eliminar campaña')
-                    ->iconButton(),
-
+                //accion de costos fijos e indirectos
                 Action::make('administrar_costos')
-                    ->label('Centro Financiero')
-                    ->icon('heroicon-m-building-library')
+                    ->icon('heroicon-m-banknotes')
                     ->color('success')
-                    ->tooltip('Administrar costos fijos e indirectos')
-                    ->button()
-                    ->outlined()
-                    ->extraAttributes([
-                        'class' => 'transition-all duration-200 hover:scale-105',
-                    ])
+                    ->tooltip('Gestion costos fijos e indirectos')
+                    ->iconButton()
                     ->url(
                         fn($record) =>
                         CampaniaResource::getUrl(
@@ -125,18 +124,45 @@ class CampaniasTable
                             ['record' => $record]
                         )
                     ),
-            ])
 
-            // Acciones masivas
+                //accion de costos variables
+                Action::make('administrar_variables')
+                    ->icon('heroicon-m-cube-transparent')
+                    ->color('warning')
+                    ->tooltip('Gestion de costos variables')
+                    ->iconButton()
+                    ->url(
+                        fn($record) =>
+                        CampaniaResource::getUrl(
+                            'variables',
+                            ['record' => $record]
+                        )
+                    ),
+
+                //accion de eliminar datos
+                DeleteAction::make()
+                    ->icon('heroicon-m-trash')
+                    ->color('danger')
+                    ->tooltip('Eliminar campaña')
+                    ->iconButton(),
+
+            ])
             ->bulkActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
-            ])
 
-            // Estado vacío profesional
+                BulkActionGroup::make([
+
+                    DeleteBulkAction::make()
+                        ->label('Eliminar seleccionados'),
+
+                ]),
+
+            ])
+            
+            //Estado vacio de la tabla
             ->emptyStateIcon('heroicon-o-megaphone')
             ->emptyStateHeading('No existen campañas registradas')
-            ->emptyStateDescription('Crea una nueva campaña para comenzar a administrar costos y producción.');
+            ->emptyStateDescription(
+                'Crea una nueva campaña para comenzar la administración operativa.'
+            );
     }
 }

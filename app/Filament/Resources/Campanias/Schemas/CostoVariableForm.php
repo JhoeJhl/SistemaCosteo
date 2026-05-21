@@ -16,85 +16,102 @@ class CostoVariableForm
     {
         return $schema
             ->components([
-                Section::make('Detalle del Costo Operativo')
-                    ->description('Registre los gastos variables directamente asociados al procesamiento.')
-                    ->icon('heroicon-m-cube-transparent')
+
+                Section::make('Costos Variables')
+                    ->description('Registro operativo de gastos variables asociados a la producción.')
+                    ->icon('heroicon-m-banknotes')
+                    ->compact()
                     ->columns(12)
                     ->schema([
 
-                        // FILA 1: Clasificación
+                        //Categoria
                         ToggleButtons::make('categoria')
-                            ->label('Categoría Operativa')
+                            ->label('Categoría')
                             ->options([
-                                'Mano de Obra' => 'Mano de Obra',
-                                'Procesamiento' => 'Procesamiento',
-                                'Empaque' => 'Empaque',
-                                'Transporte' => 'Transporte',
-                                'Energia Operativa' => 'Energía Operativa',
-                                'Otros Variables' => 'Otros Variables',
+                                'mano_obra' => 'Mano de Obra',
+                                'procesamiento' => 'Procesamiento',
+                                'empaque' => 'Empaque',
+                                'transporte' => 'Transporte',
+                                'energia_operativa' => 'Energía',
+                                'otros_variables' => 'Otros',
                             ])
-                            ->colors([
-                                'Mano de Obra' => 'info',
-                                'Procesamiento' => 'primary',
-                                'Empaque' => 'success',
-                                'Transporte' => 'warning',
-                                'Energia Operativa' => 'danger',
-                                'Otros Variables' => 'gray',
+                            ->icons([
+                                'mano_obra' => 'heroicon-m-users',
+                                'procesamiento' => 'heroicon-m-cog-6-tooth',
+                                'empaque' => 'heroicon-m-archive-box',
+                                'transporte' => 'heroicon-m-truck',
+                                'energia_operativa' => 'heroicon-m-bolt',
+                                'otros_variables' => 'heroicon-m-squares-2x2',
                             ])
                             ->inline()
+                            ->grouped()
+                            ->default('procesamiento')
                             ->required()
-                            ->in(['Mano de Obra', 'Procesamiento', 'Empaque', 'Transporte', 'Energia Operativa', 'Otros Variables'])
-                            ->columnSpan(12),
+                            ->columnSpanFull()
+                            ->extraAttributes([
+                                'class' => 'text-sm',
+                            ]),
 
-                        // FILA 2: Fechas y Montos
+                        //fecha de registro
                         DatePicker::make('fecha_registro')
-                            ->label('Fecha de Ejecución')
+                            ->label('Fecha')
                             ->required()
                             ->native(false)
                             ->displayFormat('d/m/Y')
                             ->default(now())
-                            ->maxDate(now()->addDays(1)) // Evita fechas futuras exageradas
-                            ->prefixIcon('heroicon-m-calendar-days')
+                            ->maxDate(now())
+                            ->prefixIcon('heroicon-m-calendar')
                             ->columnSpan(4),
 
+                        // monto
                         TextInput::make('monto')
-                            ->label('Monto Invertido')
+                            ->label('Monto')
                             ->required()
                             ->numeric()
                             ->minValue(0)
                             ->prefix('Bs.')
+                            ->placeholder('0.00')
+                            ->inputMode('decimal')
+                            ->prefixIcon('heroicon-m-currency-dollar')
                             ->columnSpan(4),
 
+                        //unidad
                         Select::make('unidad_costo')
-                            ->label('Unidad de Medida')
+                            ->label('Unidad')
                             ->required()
                             ->native(false)
+                            ->searchable()
+                            ->preload()
                             ->options([
-                                'por kg' => 'Por Kilogramo (kg)',
-                                'por lote' => 'Por Lote',
-                                'por bolsa' => 'Por Bolsa',
-                                'por unidad' => 'Por Unidad',
+                                'por_kg' => 'Por Kg',
+                                'por_lote' => 'Por Lote',
+                                'por_bolsa' => 'Por Bolsa',
+                                'por_unidad' => 'Por Unidad',
                             ])
-                            ->in(['por kg', 'por lote', 'por bolsa', 'por unidad'])
+                            ->placeholder('Seleccione')
                             ->prefixIcon('heroicon-m-scale')
                             ->columnSpan(4),
 
-                        // FILA 3: Descripciones
+                        //descripcion
                         TextInput::make('descripcion')
-                            ->label('Descripción Específica')
+                            ->label('Descripción')
                             ->required()
                             ->minLength(10)
                             ->maxLength(255)
-                            ->placeholder('Ej. Pago a jornaleros por turno de noche')
-                            ->prefixIcon('heroicon-m-document-text')
-                            ->columnSpan(12),
+                            ->columnSpan('full')
+                            ->placeholder('Detalle breve del gasto operativo')
+                            ->prefixIcon('heroicon-m-document-text'),
 
+                        //observaciones
                         Textarea::make('observaciones')
-                            ->label('Observaciones Técnicas (Opcional)')
+                            ->label('Observaciones')
+                            ->placeholder('Notas adicionales...')
+                            ->rows(3)
+                            ->autosize()
                             ->maxLength(500)
-                            ->rows(2)
-                            ->columnSpan(12),
-                    ]),
+                            ->columnSpanFull(),
+                    ])
+                    ->columnSpanFull(),
             ]);
     }
 }

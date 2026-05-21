@@ -4,12 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Campania;
 
-class CostoVariable extends Model
+class CostosVariables extends Model
 {
     use HasFactory;
-
-    protected $table = 'costos_variables';
 
     protected $fillable = [
         'campania_id',

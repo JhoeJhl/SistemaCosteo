@@ -34,7 +34,7 @@ class CampaniasTable
                 TextColumn::make('codigo_campania')
                     ->label('Código')
                     ->badge()
-                    ->color('gray')
+                    ->color('primary')
                     ->searchable()
                     ->sortable()
                     ->weight(FontWeight::SemiBold),

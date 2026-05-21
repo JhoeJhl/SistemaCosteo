@@ -57,12 +57,10 @@ class CampaniaResource extends Resource
 
                         // Informacion general
                         Section::make('Información General de la Campaña')
-                            ->description('Resumen ejecutivo y estado actual de la campaña de producción.')
                             ->icon('heroicon-m-megaphone')
-                            ->aside()
                             ->collapsible()
                             ->compact()
-                            ->columns(12)
+                            ->columns(24)
                             ->schema([
                                 //nombre
                                 TextEntry::make('nombre')
@@ -116,6 +114,7 @@ class CampaniaResource extends Resource
 
                         //Seccion de Costos fijos e indirectos
                         Section::make('Costos Fijos e Indirectos')
+
                             ->description('Control financiero detallado de costos registrados en la campaña.')
                             ->icon('heroicon-m-banknotes')
                             ->collapsible()
@@ -123,7 +122,7 @@ class CampaniaResource extends Resource
                             ->schema([
 
                                 RepeatableEntry::make('costoCampanias')
-                                    ->label('')
+                                    ->label('Costos Campaña')
                                     ->contained(false)
                                     ->grid(1)
                                     ->placeholder('No existen costos registrados todavía para esta campaña.')
@@ -209,7 +208,7 @@ class CampaniaResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RelationManagers\CostoCampaniasRelationManager::class,
+            //
         ];
     }
 

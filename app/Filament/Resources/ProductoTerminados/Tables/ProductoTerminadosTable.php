@@ -32,7 +32,13 @@ class ProductoTerminadosTable
                     ->weight('bold')
                     ->sortable(),
             ])
-            // Ordena por defecto para que los más pesados salgan primero
+            
+            //Estado vacio de la tabla
+            ->emptyStateIcon('heroicon-o-megaphone')
+            ->emptyStateHeading('No existen campañas registradas')
+            ->emptyStateDescription(
+                'Crea una nueva campaña para comenzar la administración operativa.'
+            )
             ->defaultSort('tamanio_empaque_kg', 'desc'); 
     }
 }

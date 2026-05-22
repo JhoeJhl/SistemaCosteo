@@ -1,23 +1,20 @@
 <div class="minimal-login-page">
-
     <style>
-        /* =========================================================
-           1. RESET DE CONTENEDORES FILAMENT
-        ========================================================= */
-        .fi-simple-layout,
-        .fi-simple-main {
-            max-width: 100% !important;
-            padding: 0 !important;
-            margin: 0 !important;
-            background: transparent !important;
-        }
-
         body {
             margin: 0;
             background-color: #050505;
             font-family: Arial, Helvetica, sans-serif;
             -webkit-font-smoothing: antialiased;
             color: #e5e5e5;
+        }
+
+        /* Contenedores filament */
+        .fi-simple-layout,
+        .fi-simple-main {
+            max-width: 100% !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            background: transparent !important;
         }
 
         /*Layout*/
@@ -31,7 +28,7 @@
             position: relative;
         }
 
-        /* Fondo inmersivo (Imagen) - MEJORADA */
+        /* fondo imagen (public/images/login-plant.jpg) */
         .login-image-panel {
             position: absolute;
             top: 0;
@@ -64,12 +61,12 @@
             pointer-events: none;
         }
 
-        /* Panel Central (Formulario) */
+        /* Formulario panel */
         .login-form-panel {
             position: relative;
             z-index: 10;
             width: 100%;
-            max-width: 460px;
+            max-width: 480px;
             background: rgba(10, 10, 10, 0.85);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
@@ -85,16 +82,13 @@
             width: 100%;
         }
 
-        /* =========================================================
-           3. TIPOGRAFÍA Y MARCA - TEXTOS MÁS GRANDES
-        ========================================================= */
+        /* Tipografia y marcas */
         .logo-section {
             margin-bottom: 42px;
             text-align: center;
         }
-
         .logo-badge {
-            font-size: 13px;
+            font-size: 22px;
             letter-spacing: 5px;
             text-transform: uppercase;
             color: #b0b0b0;
@@ -103,12 +97,10 @@
             padding-bottom: 10px;
             display: inline-block;
         }
-
         .login-heading {
             margin-bottom: 48px;
             text-align: center;
         }
-
         .login-heading h1 {
             font-size: 36px;
             font-weight: 400;
@@ -116,7 +108,6 @@
             margin: 0 0 12px 0;
             letter-spacing: -0.02em;
         }
-
         .login-heading p {
             font-size: 16px;
             color: #8a8a8a;
@@ -148,9 +139,7 @@
             color: rgba(255, 255, 255, 0.18);
         }
 
-        /* =========================================================
-           4. ESTILOS DE FILAMENT - TEXTOS MÁS GRANDES
-        ========================================================= */
+        /* estilos filament */
         .login-form .fi-field {
             margin-bottom: 28px !important;
         }
@@ -191,9 +180,9 @@
             display: block !important;
             color: #d4d4d4 !important;
             font-weight: 500 !important;
-            font-size: 13px !important;
+            font-size: 17px !important;
             letter-spacing: 0.5px !important;
-            margin-bottom: 10px !important;
+            margin-bottom: 9px !important;
         }
 
         /* Detalles menores */
@@ -246,9 +235,7 @@
             transform: translateY(-1px);
         }
 
-        /* =========================================================
-           5. CHECKBOX - CENTRADO CON TEXTO AL LADO
-        ========================================================= */
+        /* Checkbox */
 
         /* Contenedor del campo checkbox - centrado horizontal */
         .login-form .fi-field:has(input[type="checkbox"]) {
@@ -259,6 +246,25 @@
             gap: 10px !important;
             margin: 20px 0 0 0 !important;
             width: 100% !important;
+        }
+
+        .login-form input[type="checkbox"]:hover {
+            border-color: #eab308 !important;
+            transform: scale(1.05);
+            box-shadow: 0 0 0 2px rgba(234, 179, 8, 0.2);
+        }
+
+        /* Checked (seleccionado) - Fondo y borde verde */
+        .login-form input[type="checkbox"]:checked {
+            background-color: #22c55e !important;
+            border-color: #16a34a !important;
+            accent-color: #22c55e !important;
+        }
+
+        /* Active (mientras se hace clic) - Borde verde intenso */
+        .login-form input[type="checkbox"]:active {
+            border-color: #16a34a !important;
+            transform: scale(0.98);
         }
 
         /* Fuerza a que el cuadro y el texto estén en la misma línea */
@@ -335,9 +341,7 @@
             display: contents !important;
         }
 
-        /* =========================================================
-           6. ANIMACIONES Y RESPONSIVE
-        ========================================================= */
+        /* animaciones y responsivo */
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -402,12 +406,12 @@
 
     <div class="login-container">
 
-        {{-- PANEL DERECHO CONVERTIDO EN FONDO ABSOLUTO --}}
+        {{-- Imagen --}}
         <div class="login-image-panel">
             <img src="{{ asset('images/login-plant.jpg') }}" alt="Planta Transformadora" loading="lazy">
         </div>
 
-        {{-- TARJETA CENTRAL --}}
+        {{-- Login --}}
         <div class="login-form-panel">
             <div class="login-form-content">
 
@@ -419,18 +423,17 @@
                     <h1>Acceder</h1>
                     <p>Ingresa tus credenciales para continuar</p>
                 </div>
-                
+
                 <div class="login-form">
                     <form wire:submit="authenticate">
 
                         {{ $this->form }}
-        
-                            <x-filament::button type="submit" size="lg" class="minimal-login-btn">
-                                Iniciar sesión
-                            </x-filament::button>
+
+                        <x-filament::button type="submit" size="lg" class="minimal-login-btn">
+                            Iniciar sesión
+                        </x-filament::button>
 
                         <div class="form-divider"></div>
-
 
                     </form>
                 </div>
@@ -438,7 +441,7 @@
             </div>
         </div>
 
-        {{-- TEXTO DE CRÉDITOS --}}
+        {{-- Footer --}}
         <div class="image-overlay">
             <p>Sistema de Costeo</p>
             <p class="credit">Planta de Transformación de Asaí</p>

@@ -14,7 +14,7 @@ class LoginPersonalizado extends Login
     {
         return TextInput::make('email')
             ->label('Correo electrónico o Usuario')
-            ->placeholder('Ingresa tu correo electrónico')
+            ->placeholder('Ingresa tu correo electrónico o Usuario')
             //->email()
             ->required()
             ->autocomplete();
@@ -31,7 +31,7 @@ class LoginPersonalizado extends Login
             ->required();
     }
 
-    protected function getRememberFormComponent(): \Filament\Forms\Components\Checkbox
+    protected function getRememberFormComponent(): Checkbox
     {
         return Checkbox::make('remember')
             ->label('Recordar sesión');

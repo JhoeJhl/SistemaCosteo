@@ -34,10 +34,10 @@ class ProductoTerminadosTable
             ])
             
             //Estado vacio de la tabla
-            ->emptyStateIcon('heroicon-o-megaphone')
-            ->emptyStateHeading('No existen campañas registradas')
+            ->emptyStateIcon('heroicon-o-cube')
+            ->emptyStateHeading('No existen Productos registrados')
             ->emptyStateDescription(
-                'Crea una nueva campaña para comenzar la administración operativa.'
+                'Crea un nuevo producto para visualizar los productos del sistema.'
             )
             ->defaultSort('tamanio_empaque_kg', 'desc'); 
     }

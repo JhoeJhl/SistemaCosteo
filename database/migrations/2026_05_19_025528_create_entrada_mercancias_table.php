@@ -14,21 +14,23 @@ return new class extends Migration
         Schema::create('entrada_mercancias', function (Blueprint $table) {
             $table->id();
 
-            // Relación vital: ¿A quién le compramos?
-            $table->foreignId('proveedor_id')->nullable()->constrained('proveedors')->nullOnDelete();
+            // Relaciones
+            $table->foreignId('campana_id')->constrained('campanias')->restrictOnDelete();
+            $table->foreignId('producto_terminados_id')->constrained('productos')->restrictOnDelete();
+            $table->foreignId('proveedors_id')->constrained('proveedores')->restrictOnDelete();
+            $table->foreignId('almacens_id')->constrained('almacenes')->restrictOnDelete();
 
-            // El producto a jalar (Te haré una pregunta sobre esto más abajo)
-            $table->foreignId('producto_id')->nullable();
+            // Cantidades y Medidas
+            $table->decimal('cantidad', 12, 2);
+            $table->string('unidad_medida', 50);
 
-            // Datos principales de la entrada
-            $table->decimal('cantidad', 10, 2)->comment('Cantidad que entra (Kg, Unidades, etc)');
-            $table->decimal('precio', 10, 2)->comment('Precio unitario de compra');
+            // Finanzas
+            $table->decimal('costo_unitario', 12, 2);
+            $table->decimal('costo_total', 12, 2);
 
-            // Check de compra en planta
-            $table->boolean('es_compra_en_planta')->default(false);
-
-            // Costos adicionales (Se guarda como JSON para permitir múltiples costos por entrada)
-            $table->json('costos_adicionales')->nullable();
+            // Trazabilidad
+            $table->date('fecha_ingreso');
+            $table->text('observaciones')->nullable();
 
             $table->timestamps();
         });

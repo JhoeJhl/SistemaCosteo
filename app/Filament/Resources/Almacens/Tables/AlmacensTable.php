@@ -98,7 +98,6 @@ class AlmacensTable
                     ->color('info')
                     ->toggleable(isToggledHiddenByDefault: false),
             ])
-            // Estilo ERP empresarial
             ->striped()
             ->defaultSort('created_at', 'desc')
             

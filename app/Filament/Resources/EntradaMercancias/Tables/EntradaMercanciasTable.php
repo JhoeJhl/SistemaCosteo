@@ -21,9 +21,9 @@ class EntradaMercanciasTable
             ->paginated([10,25,50])
             
             //Cuando no hay informacion
-            ->emptyStateIcon('No hay ninguna Entrada de Mercancia registrado')
-            ->emptyStateDescription('Crea una entrada de mercancia para administrar')
-            ->emptyStateIcon('heroicon-o-archive-box-arrow-down')
-            ->searchPlaceholder('Buscar por Codigo de Entrada');
+            ->searchPlaceholder('Buscar por codigo...')
+            ->emptyStateHeading('No existen Entradas de Mercancia')
+            ->emptyStateDescription('Crea una entrada de mercancia para poder administrar.')
+            ->emptyStateIcon('heroicon-o-archive-box-arrow-down');
     }       
 }

@@ -5,8 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use app\Models\Campania;
-use app\Models\Almacen;
+use App\Models\Campania;
+use App\Models\Almacen;
+use App\Models\Proveedor;
+use App\Models\ProductoTerminado;
+
 
 class EntradaMercancia extends Model
 {
@@ -35,17 +38,16 @@ class EntradaMercancia extends Model
     // actualizacion de stock
     protected static function booted()
     {
-        // Al registrar una nueva entrada -> Suma al stock
+        // aumento de stock al registrar nueva entrada
         static::created(function ($entrada) {
             $entrada->producto->increment('stock', $entrada->cantidad);
         });
 
-        // Al editar un registro -> Calcula la diferencia y ajusta
+        // Calcular la diferencia y ajustar
         static::updated(function ($entrada) {
             $diferencia = $entrada->cantidad - $entrada->getOriginal('cantidad');
             
             if ($diferencia != 0) {
-                // Si la diferencia es positiva, suma. Si es negativa, resta automáticamente.
                 $entrada->producto->increment('stock', $diferencia);
             }
         });
@@ -68,13 +70,13 @@ class EntradaMercancia extends Model
     //Relacion con Productos
     public function producto(): BelongsTo
     {
-        return $this->belongsTo(ProductoTerminado::class, 'producto_id');
+        return $this->belongsTo(ProductoTerminado::class, 'producto_terminados_id');
     }
 
     //Relacion con campaña
     public function campana(): BelongsTo
     {
-        return $this->belongsTo(Campania::class, 'campana_id');
+        return $this->belongsTo(Campania::class, 'campania_id');
     }
 
     //Relacion con almacen

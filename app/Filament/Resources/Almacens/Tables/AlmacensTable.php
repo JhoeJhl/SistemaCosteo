@@ -12,8 +12,9 @@ class AlmacensTable
     {
         return $table
             ->columns([
+                //TABLA DE ALMACENES
 
-                // 1. NUEVA COLUMNA: Código de Almacén
+                // columna de datos codigo
                 TextColumn::make('codigo_almacen')
                     ->label('Código')
                     ->searchable()
@@ -22,7 +23,7 @@ class AlmacensTable
                     ->weight(FontWeight::Bold)
                     ->color('primary'),
 
-                // Nombre principal del almacén
+                // columna de datos nombre Almacen
                 TextColumn::make('nombre')
                     ->label('Almacén')
                     ->searchable()
@@ -39,21 +40,21 @@ class AlmacensTable
                             : 'success'
                     ),
 
-                // 2. NUEVA COLUMNA: Estado
+                // Columna de estado
                 TextColumn::make('estado')
                     ->label('Estado')
-                    ->badge() // Lo mostramos como una etiqueta de color
+                    ->badge() //etiqueta de color
                     ->searchable()
                     ->sortable()
                     ->alignCenter()
                     ->color(fn (string $state): string => match (strtolower($state)) {
                         'activo' => 'success',
                         'inactivo' => 'danger',
-                        default => 'warning', // Para los estados personalizados ("otro")
+                        default => 'warning',
                     })
-                    ->formatStateUsing(fn ($state) => ucfirst($state)), // Pone la primera letra en mayúscula
+                    ->formatStateUsing(fn ($state) => ucfirst($state)),
 
-                // Tipo de almacén
+                // Columna tipo de almacecn
                 TextColumn::make('tipo')
                     ->label('Tipo')
                     ->badge()
@@ -70,13 +71,14 @@ class AlmacensTable
                         default => 'Sin tipo',
                     }),
 
-                // Descripción
+                // columna descripcion
                 TextColumn::make('descripcion')
                     ->label('Descripción')
                     ->limit(40)
                     ->wrap()
                     ->color('gray')
-                    ->default('Sin descripción registrada.'),
+                    ->default('Sin descripción registrada.')
+                    ->toggleable(isToggledHiddenByDefault: false),
 
                 // Fecha de creación
                 TextColumn::make('created_at')
@@ -93,14 +95,14 @@ class AlmacensTable
                     ->since()
                     ->sortable()
                     ->icon('heroicon-m-clock')
-                    ->color('info'),
+                    ->color('info')
+                    ->toggleable(isToggledHiddenByDefault: false),
             ])
-
             // Estilo ERP empresarial
             ->striped()
             ->defaultSort('created_at', 'desc')
             
-            // --- TRADUCCIONES Y PERSONALIZACIÓN DE LA INTERFAZ ---
+            // Personalizacion de mensajes y alerta cuando no hay contenido
             ->searchPlaceholder('Buscar por codigo...')
             ->paginated([10, 25, 50])
             ->emptyStateHeading('No existen almacenes registrados')

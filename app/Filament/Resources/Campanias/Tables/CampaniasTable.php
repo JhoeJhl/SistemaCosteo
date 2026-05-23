@@ -23,6 +23,8 @@ class CampaniasTable
         return $table
 
             //header de la tabla
+            ->recordUrl(null)
+            ->recordAction(null)
             ->heading('Gestión de Campañas')
             ->description(
                 'Administra campañas de producción y controla módulos operativos y financieros.'

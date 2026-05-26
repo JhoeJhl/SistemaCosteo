@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\EntradaMercancias\Schemas;
 
+use Filament\Forms\Components\DatePicker;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Grid;
@@ -9,6 +10,9 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Repeater;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
+
 
 class EntradaMercanciaForm
 {
@@ -16,78 +20,138 @@ class EntradaMercanciaForm
     {
         return $schema
             ->components([
-
-
-                // Sección 1: Datos Principales de la Entrada
-                Section::make('Detalle de Ingreso')
-                    ->description('Registre el proveedor, el producto y la cantidad recibida.')
-                    ->icon('heroicon-m-arrow-down-tray')
+                Section::make('Información Logística')
+                    ->description('Datos de procedencia, destino y fechas.')
+                    ->icon('heroicon-m-truck')
+                    ->compact()
+                    ->columns(12) // Cuadrícula interna
                     ->schema([
-                        Grid::make(2)->schema([
-                            Select::make('proveedor_id')
-                                ->label('Proveedor')
-                                ->relationship('proveedor', 'nombre')
-                                ->searchable()
-                                ->preload()
-                                ->required()
-                                ->prefixIcon('heroicon-m-truck'),
+                        Select::make('campana_id')
+                            ->relationship('campana', 'nombre')
+                            ->label('Campaña')
+                            ->required()
+                            ->searchable()
+                            ->preload()
+                            ->native(false)
+                            ->prefixIcon('heroicon-m-flag')
+                            ->columnSpan(3),
 
-                            Select::make('producto_id')
-                                ->label('Producto / Material')
-                                ->relationship('producto', 'nombre') // Ajusta 'nombre' si tu columna se llama distinto
-                                ->searchable()
-                                ->preload()
-                                ->required()
-                                ->prefixIcon('heroicon-m-cube'),
+                        Select::make('proveedor_id')
+                            ->relationship('proveedor', 'nombre')
+                            ->label('Proveedor')
+                            ->required()
+                            ->searchable()
+                            ->preload()
+                            ->native(false)
+                            ->prefixIcon('heroicon-m-building-storefront')
+                            ->columnSpan(3),
 
-                            TextInput::make('cantidad')
-                                ->label('Cantidad que Entra')
-                                ->numeric()
-                                ->required()
-                                ->suffix('Kg / Unid.'),
+                        Select::make('almacen_id')
+                            ->relationship('almacen', 'nombre')
+                            ->label('Almacén Destino')
+                            ->required()
+                            ->searchable()
+                            ->preload()
+                            ->native(false)
+                            ->prefixIcon('heroicon-m-building-office-2')
+                            ->columnSpan(3),
 
-                            TextInput::make('precio')
-                                ->label('Precio Unitario')
-                                ->numeric()
-                                ->required()
-                                ->prefix('Bs.'),
-                        ]),
+                        DatePicker::make('fecha_ingreso')
+                            ->label('Fecha Ingreso')
+                            ->required()
+                            ->default(now())
+                            ->native(false)
+                            ->displayFormat('d/m/Y')
+                            ->prefixIcon('heroicon-m-calendar-days')
+                            ->columnSpan(3),
+                    ]),
 
-                        Toggle::make('es_compra_en_planta')
-                            ->label('¿Es Compra en Planta?')
-                            ->onColor('success')
-                            ->inline(false)
-                            ->columnSpanFull(),
-                    ])
-                    ->columnSpan(['full']), // Ocupa el lado izquierdo en PC
-                    
-                // Sección 2: Costos Adicionales (Repeater)
-                Section::make('Costos Adicionales')
-                    ->description('Agregue fletes, estibadores u otros gastos de esta entrada.')
-                    ->icon('heroicon-m-currency-dollar')
+                // detalle del operativo
+                Section::make('Detalle Operativo')
+                    ->description('Especificaciones del producto y costos calculados.')
+                    ->icon('heroicon-m-cube')
+                    ->compact()
+                    ->columns(12)
+                    ->columnSpanFull()
                     ->schema([
-                        // EL COMPONENTE REPEATER
-                        Repeater::make('costos_adicionales')
-                            ->label('')
-                            ->schema([
-                                TextInput::make('descripcion')
-                                    ->label('Descripción del Costo')
-                                    ->required()
-                                    ->placeholder('Ej. Transporte, Estibaje...'),
 
-                                TextInput::make('precio')
-                                    ->label('Costo')
-                                    ->numeric()
-                                    ->required()
-                                    ->prefix('Bs.'),
+                        // producto | materia prima
+                        Select::make('producto_id')
+                            ->relationship('producto', 'nombre')
+                            ->label('Producto / Materia Prima')
+                            ->required()
+                            ->searchable()
+                            ->preload()
+                            ->native(false)
+                            ->prefixIcon('heroicon-m-cube')
+                            ->columnSpan(4),
+
+                        // unidad de medida
+                        Select::make('unidad_medida')
+                            ->label('Unidad')
+                            ->required()
+                            ->native(false)
+                            ->options([
+                                'kg' => 'Kilogramos',
+                                'unidades' => 'Unidades',
+                                'bolsas' => 'Bolsas',
+                                'cajas' => 'Cajas',
+                                'litros' => 'Litros',
                             ])
-                            ->columns(2)
-                            ->defaultItems(0) // Empieza vacío hasta que hagan clic en agregar
-                            ->addActionLabel('Agregar Costo Adicional')
-                            ->reorderableWithButtons(),
-                    ])
-                    ->columnSpan(['full']), // Ocupa el lado derecho en PC
+                            ->columnSpan(2),
 
+                        // cantidad
+                        TextInput::make('cantidad')
+                            ->label('Volumen')
+                            ->required()
+                            ->numeric()
+                            ->minValue(0.01)
+                            ->live(debounce: 500)
+                            ->prefixIcon('heroicon-m-arrows-up-down')
+                            ->afterStateUpdated(fn(Get $get, Set $set) => self::calcularTotal($get, $set))
+                            ->columnSpan(2),
+
+                        //costo unitario
+                        TextInput::make('costo_unitario')
+                            ->label('C. Unitario')
+                            ->required()
+                            ->numeric()
+                            ->minValue(0)
+                            ->prefix('Bs.')
+                            ->live(debounce: 500)
+                            ->afterStateUpdated(fn(Get $get, Set $set) => self::calcularTotal($get, $set))
+                            ->columnSpan(2),
+
+                        //costo total
+                        TextInput::make('costo_total')
+                            ->label('Costo Total')
+                            ->numeric()
+                            ->readOnly()
+                            ->dehydrated()
+                            ->prefix('Bs.')
+                            ->extraInputAttributes([
+                                'class' => 'font-bold bg-success-50 text-success-700 dark:bg-success-900/30 dark:text-success-400',
+                            ])
+                            ->columnSpan(2),
+                    ]),
+
+                //observaciones
+                TextInput::make('observaciones')
+                    ->label('Observaciones Adicionales')
+                    ->placeholder('Nro de Guía, condiciones de llegada, detalles extras...')
+                    ->maxLength(255)
+                    ->prefixIcon('heroicon-m-document-text')
             ]);
+    }
+    private static function calcularTotal(Get $get, Set $set): void
+    {
+        $cantidad = (float) ($get('cantidad') ?? 0);
+
+        $costoUnitario = (float) ($get('costo_unitario') ?? 0);
+
+        $set(
+            'costo_total',
+            number_format($cantidad * $costoUnitario, 2, '.', '')
+        );
     }
 }

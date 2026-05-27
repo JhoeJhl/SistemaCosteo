@@ -5,11 +5,8 @@ namespace App\Filament\Resources\EntradaMercancias\Schemas;
 use Filament\Forms\Components\DatePicker;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
-use Filament\Schemas\Components\Grid;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\Repeater;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 
@@ -24,7 +21,7 @@ class EntradaMercanciaForm
                     ->description('Datos de procedencia, destino y fechas.')
                     ->icon('heroicon-m-truck')
                     ->compact()
-                    ->columns(12) // Cuadrícula interna
+                    ->columns(12)
                     ->schema([
                         Select::make('campana_id')
                             ->relationship('campana', 'nombre')

@@ -68,22 +68,15 @@ class AlmacenResource extends Resource
         ];
     }
 
-
-
     public static function getPages(): array
 
     {
 
         return [
-
             'index' => ListAlmacens::route('/'),
-
             'create' => CreateAlmacen::route('/create'),
-
             'view' => ViewAlmacen::route('/{record}'),
-
             'edit' => EditAlmacen::route('/{record}/edit'),
-
         ];
     }
 

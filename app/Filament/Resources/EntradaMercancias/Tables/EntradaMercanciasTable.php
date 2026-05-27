@@ -14,9 +14,8 @@ class EntradaMercanciasTable
     public static function configure(Table $table): Table
     {
         return $table
-             ->recordUrl(null)
+            ->recordUrl(null)
             ->recordAction(null)
-
             ->columns([
 
                 TextColumn::make('fecha_ingreso')
@@ -56,34 +55,10 @@ class EntradaMercanciasTable
                     ->color('success'),
 
             ])
-
-            ->filters([
-
-                SelectFilter::make('campana_id')
-                    ->relationship('campana', 'nombre')
-                    ->label('Campaña'),
-
-                SelectFilter::make('almacen_id')
-                    ->relationship('almacen', 'nombre')
-                    ->label('Almacén'),
-
-            ])
-
-            ->actions([
-
-                EditAction::make(),
-                DeleteAction::make(),
-
-            ])
-
-            ->bulkActions([
-
-                BulkActionGroup::make([
-
-                    // Vacío por seguridad
-
-                ]),
-
-            ]);
-    }       
+            ->searchPlaceholder('Buscar por codigo...')
+            ->paginated([10, 25, 50])
+            ->emptyStateHeading('No existen Entradas Mercancias')
+            ->emptyStateDescription('Crea una entrada para comenzar a administrar.')
+            ->emptyStateIcon('heroicon-o-archive-box-arrow-down');
+    }
 }
